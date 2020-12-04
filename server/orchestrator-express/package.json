@@ -1,13 +1,12 @@
 {
   "name": "monolith",
   "version": "1.0.0",
+  "description": "",
   "main": "app.js",
   "dependencies": {
-    "apollo-server": "^2.19.0",
     "axios": "^0.21.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "graphql": "^15.4.0",
     "ioredis": "^4.19.2",
     "mongodb": "^3.6.3"
   },
@@ -17,6 +16,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "description": ""
+  "license": "ISC"
 }

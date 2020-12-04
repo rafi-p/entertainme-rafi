@@ -1,15 +1,28 @@
-const express = require('express')
-const router = require('./routes/index')
-const app = express()
-const port = 3000
-const cors = require("cors")
+const { ApolloServer, gql, makeExecutableSchema} = require('apollo-server')
+const movieSchema = require('./schema/movieSchema')
+const serieSchema = require('./schema/serieSchema')
 
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+const typeDefs = gql`
+  type Query
+  type Mutation
+`
 
-app.use('/', router)
+const schema = makeExecutableSchema({
+    typeDefs : [
+        typeDefs,
+        movieSchema.typeDefs,
+        serieSchema.typeDefs
+    ],
+    resolvers : [
+        movieSchema.resolvers,
+        serieSchema.resolvers
+    ]
+})
 
-app.listen(port, () => {
-    console.log(`Orchestrator listening at http://localhost:${port}`)
+const server = new ApolloServer({
+    schema
+})
+
+server.listen().then(({ url }) => {
+    console.log(`Server ready at ${url}`)
 })

@@ -5,22 +5,38 @@ const Redis = require('ioredis')
 const redis = new Redis()
 
 class EntertainmeController {
-    // static async movieAdd(req, res) {
-    //     try {
-    //         const inputMovie = {
-    //             title: req.body.title,
-    //             overview: req.body.overview,
-    //             poster_path: req.body.poster_path,
-    //             popularity: req.body.popularity,
-    //             tags: req.body.tags
-    //         }
-    //         console.log(inputMovie)
-    //         const newMovie = await Movie.create(inputMovie)
-    //         res.status(201).json(newMovie)
-    //     } catch (error) {
-    //         res.send(error)
-    //     }
-    // }
+    static async entertainmeAdd(req, res) {
+        try {
+            const input = {
+                title: req.body.title,
+                overview: req.body.overview,
+                poster_path: req.body.poster_path,
+                popularity: req.body.popularity,
+                tags: req.body.tags
+            }
+
+            const movie = await axios({
+                url: moviesURL,
+                method: "POST",
+                data: input
+            })
+
+            const tv = await axios({
+                url: tvURL,
+                method: "POST",
+                data: input
+            })
+
+            redis.del('entertainme')
+
+            res.status(201).json({
+                movies: movie.data,
+                tvSeries: tv.data
+            })
+        } catch (error) {
+            res.send(error)
+        }
+    }
     static async entertainmeList(req, res) {
         try {
             const entertainme =  JSON.parse(await redis.get("entertainme"))
@@ -64,25 +80,25 @@ class EntertainmeController {
     //         })
     //     }
     // }
-    // static async moviePut(req, res) {
-    //     try {
-    //         let id = req.params.id
-    //         const updateMovie = {
-    //             title: req.body.title,
-    //             overview: req.body.overview,
-    //             poster_path: req.body.poster_path,
-    //             popularity: req.body.popularity,
-    //             tags: req.body.tags
-    //         }
-    //         const resp = await Movie.update(id, updateMovie)
-    //         res.status(200).json(resp)
-    //     } catch (error) {
-    //         console.log(error)
-    //         res.status(500).json({
-    //           message : "Internal Server Error"
-    //         })
-    //     }
-    // }
+    static async moviePut(req, res) {
+        try {
+            let id = req.params.id
+            const updateMovie = {
+                title: req.body.title,
+                overview: req.body.overview,
+                poster_path: req.body.poster_path,
+                popularity: req.body.popularity,
+                tags: req.body.tags
+            }
+            const resp = await Movie.update(id, updateMovie)
+            res.status(200).json(resp)
+        } catch (error) {
+            console.log(error)
+            res.status(500).json({
+              message : "Internal Server Error"
+            })
+        }
+    }
 
     // static async delete(req, res) {
     //     try {

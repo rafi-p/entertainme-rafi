@@ -10,8 +10,9 @@ class MovieController {
                 popularity: req.body.popularity,
                 tags: req.body.tags
             }
-            console.log(inputMovie)
+            // console.log(inputMovie)
             const newMovie = await Movie.create(inputMovie)
+            console.log(newMovie)
             res.status(201).json(newMovie)
         } catch (error) {
             console.log(error)
@@ -68,16 +69,10 @@ class MovieController {
     static async delete(req, res) {
         try {
             let id = req.params.id
-            const updateMovie = {
-                title: req.body.title,
-                overview: req.body.overview,
-                poster_path: req.body.poster_path,
-                popularity: req.body.popularity,
-                tags: req.body.tags
-            }
-            const dataMovie = await Movie.remove(id, updateMovie)
-            // console.log(dataMovies)
-            res.status(200).json(dataMovie)
+            const movieDeleted = await Movie.findById(id)
+            const dataMovie = await Movie.remove(id)
+            console.log(movieDeleted)
+            res.status(200).json(movieDeleted)
         } catch (error) {
             console.log(error)
             res.status(500).json({

@@ -2,7 +2,7 @@ const router = require('express').Router()
 const Controller = require('../controllers/entertainmeController')
 
 
-// router.post('/', Controller.movieAdd)
+router.post('/', Controller.entertainmeAdd)
 
 router.get('/', Controller.entertainmeList)
 

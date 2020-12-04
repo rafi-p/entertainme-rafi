@@ -68,16 +68,10 @@ class TvSeriesController {
     static async delete(req, res) {
         try {
             let id = req.params.id
-            const updateTV = {
-                title: req.body.title,
-                overview: req.body.overview,
-                poster_path: req.body.poster_path,
-                popularity: req.body.popularity,
-                tags: req.body.tags
-            }
-            const dataTV = await TV.remove(id, updateTV)
+            const TVdeleted = await TV.findById(id)
+            const dataTV = await TV.remove(id)
             // console.log(dataTVs)
-            res.status(200).json(dataTV)
+            res.status(200).json(TVdeleted)
         } catch (error) {
             console.log(error)
             res.status(500).json({
