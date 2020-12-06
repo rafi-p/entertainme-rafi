@@ -1,0 +1,6 @@
+export { default as Home } from './MainPage'
+export { default as Movies } from './Movies'
+export { default as Series } from './Series'
+export { default as MovieDetail } from './MovieDetail'
+export { default as AddMovie } from './AddMovie'
+export { default as EditMovie } from './EditMovie'
