@@ -6,9 +6,14 @@ function Card (props) {
     const history = useHistory()
     const {movie} = props
 
-    function Edit (id) {
-        // console.log(id)
-        history.push(`/editMovie/${id}`)
+    // function Edit (id) {
+    //     // console.log(id)
+    //     history.push(`/editMovie/${id}`)
+    // }
+
+    function toDetail (e, id) {
+        e.preventDefault()
+        history.push(`/detailMovie/${id}`)
     }
 
     return (
@@ -16,7 +21,7 @@ function Card (props) {
             <div className="latest-b-img shadow"  style={{borderRadius: '15px', width: '100%', height: '400px'}}>
                 <i className="far fa-bookmark text-white" style={{position: 'absolute', right: '15px', top: '15px', fontSize: '25px'}}></i>
                 {/* <i className="fas fa-bookmark text-white" style={{position: 'absolute', right: '15px', top: '15px', fontSize: '25px'}}></i> */}
-                <img className="card-img-top"  style={{borderRadius: '15px'}} src={movie.poster_path} alt=""/>
+                <img onClick={(e) => toDetail(e, movie._id)} type='button' className="card-img-top"  style={{borderRadius: '15px'}} src={movie.poster_path} alt=""/>
             </div>
 
             <div className="card-body">
@@ -27,7 +32,7 @@ function Card (props) {
 
                 <p className="card-text" style={{fontSize: '12px'}}>
                     <span>{movie.tags}</span>
-                    <i type='button' onClick={() => Edit(movie._id)} className="fas fa-pen float-right"></i>
+                    {/* <i type='button' onClick={() => Edit(movie._id)} className="fas fa-pen float-right"></i> */}
                 </p>
 
             </div>

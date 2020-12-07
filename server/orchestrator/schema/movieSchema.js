@@ -64,7 +64,10 @@ const resolvers = {
         },
         movie: async (parent, args, context, info) => {
             try {
+
                 const {_id} = args
+
+                // console.log(_id)
                 const {data} = await axios({
                     url: moviesURL + `/${_id}`,
                     method: 'GET'
@@ -105,6 +108,8 @@ const resolvers = {
         updateMovie: async (parent, args, context, info) => {
             try {
                 const {_id} = args
+                // console.log(_id, 'ini di movieSchema')
+                // console.log(args.data)
                 const {title, overview, poster_path, popularity, tags} = args.data
                 const {data} = await axios ({
                     url: moviesURL + `/${_id}`,
@@ -118,9 +123,10 @@ const resolvers = {
                     }
                 })
                 redis.del('movies')
-                // console.log(data)
+                // console.log(data, 'ini data dari updateMovie')
                 return data.value
             } catch (error) {
+
                 console.log(error)
             }
         },

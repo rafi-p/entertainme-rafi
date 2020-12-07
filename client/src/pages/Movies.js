@@ -6,8 +6,9 @@ import { useQuery, gql } from '@apollo/client'
 
 function Movies (props) {
 
-    const {loading, error, data} = useQuery(GET_MOVIES)
+    const {loading, error, data, refetch} = useQuery(GET_MOVIES)
     console.log(data)
+
 
     return (
         <>

@@ -1,44 +1,57 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ShowcaseCard from '../components/showcaseCard'
 import SlideCard from '../components/slideCard'
-import { GET_MOVIES } from '../config/queries'
+import { GET_MOVIES, GET_SERIES, GET_ALL } from '../config/queries'
 
 import { useQuery, gql } from '@apollo/client'
 
 
-// const GET_MOVIES = gql`
-//   query getMovies {
-//     movies {
-//         _id
-//         title
-//         overview
-//         poster_path
-//         popularity
-//         tags
-//     }
-//   }
-// `
-// const GET_MOVIE=gql`
-
-//   query getMovie($id : ID) {
-//     movie (_id: $id) {
-//       id
-//       name
-//       age
-//       country
-//     }
-//   }
-// `
-
-
 function Home () {
+    const [reversedMovie, setReversedMovie] = useState([])
+    const [reversedSeries, setReversedSeries] = useState([])
+    const [newArrMovie, setNewArrMovie] = useState([])
 
-    const {loading, error, data} = useQuery(GET_MOVIES)
-    console.log(data)
+    const {loading, error, data} = useQuery(GET_ALL)
 
-    // if(loading) {
-    //     return <div>Loading .....</div>
-    // }
+    const sliceMovie = reversedMovie.reverse().slice(0,10)
+    console.log(sliceMovie)
+
+    const sliceSeries = reversedSeries.reverse().slice(0,10)
+    console.log(sliceSeries)
+
+    useEffect(() => {
+      if(data) {
+        setReversedMovie([...data.movies])
+        setReversedSeries([...data.series])
+        setNewArrMovie([...data.movies])
+      }
+    },[data])
+
+    function selectionSort(arr) {
+      for (let i = 0; i < arr.length; i++) {
+          let smol = arr[i].popularity
+          let minimIndex = i
+          for (let j = i; j < arr.length; j++) {
+              if(arr[j].popularity < smol) {
+                  smol = arr[j].popularity
+                  minimIndex = j
+              }
+          }
+          let tuker = arr[i]
+          arr[i] = arr[minimIndex]
+          arr[minimIndex] = tuker
+      }
+      return arr
+  }
+
+
+  const sortingByPopularity = selectionSort(newArrMovie).reverse()
+  const filterMoviePopular = sortingByPopularity.filter((el, index) => index < 5)
+  console.log(filterMoviePopular)
+
+    if(loading) {
+        return <div>Loading .....</div>
+    }
 
     // if(error) {
     //     return <div>{error.message}</div>
@@ -54,10 +67,16 @@ function Home () {
             <h1 className="showcase-heading">Showcase</h1>
 
             <ul id="autoWidth" className="cs-hidden d-flex scrollbar scrollbar-black bordered-black square thin">
-              <ShowcaseCard />
-              <ShowcaseCard />
-              <ShowcaseCard />
-              <ShowcaseCard />
+            {/* {JSON.stringify(filterMoviePopular)} */}
+            {
+
+              filterMoviePopular.map(el => {
+                return (
+                  <ShowcaseCard key={el._id} movie={el}/>
+                )
+
+              })
+            }
             </ul>
 
           </section>
@@ -67,14 +86,13 @@ function Home () {
             <h2 className="latest-heading">Latest Movies</h2>
             {/* <!--slider-------------------> */}
             <ul id="autoWidth2" className="cs-hidden d-flex scrollbar scrollbar-black bordered-black square thin">
-              <SlideCard />
-              <SlideCard />
-              <SlideCard />
-              <SlideCard />
-              <SlideCard />
-              <SlideCard />
-              <SlideCard />
-              <SlideCard />
+            {
+              sliceMovie.map(movie => {
+                return (
+                  <SlideCard key={movie._id} movie={movie}/>
+                )
+              })
+            }
             </ul>
           </section>
 
@@ -83,14 +101,13 @@ function Home () {
             <h2 className="latest-heading">Latest Series</h2>
             {/* <!--slider-------------------> */}
             <ul id="autoWidth2" className="cs-hidden d-flex scrollbar scrollbar-black bordered-black square thin">
-              <SlideCard />
-              <SlideCard />
-              <SlideCard />
-              <SlideCard />
-              <SlideCard />
-              <SlideCard />
-              <SlideCard />
-              <SlideCard />
+            { data.series !== undefined &&
+              sliceSeries.map(serie => {
+                return (
+                  <SlideCard key={serie._id} movie={serie}/>
+                )
+              })
+            }
             </ul>
           </section>
 

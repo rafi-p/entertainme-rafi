@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import { GET_MOVIE, UPDATE_MOVIE } from '../config/queries'
+import { GET_MOVIE, UPDATE_MOVIE, GET_ALL } from '../config/queries'
 
 import { useQuery, gql , useMutation } from '@apollo/client'
+
 
 function EditMovie (props) {
     const [title, setTitle] = useState('')
@@ -10,18 +11,35 @@ function EditMovie (props) {
     const [poster_path, setPoster_path] = useState('')
     const [popularity, setPopularity] = useState(0)
     const [tags, setTags] = useState([])
-
-    const [updateMovie] = useMutation(UPDATE_MOVIE)
-
     const history = useHistory()
     const {id} = useParams()
+    // console.log(id)
+
+    const [updateMovie] = useMutation(UPDATE_MOVIE, {
+        refetchQueries: [
+          { query: GET_ALL }
+        ]
+      })
+
+
 
     const {loading, error, data} = useQuery(GET_MOVIE, {
         variables: {
             _id: id
         }
      })
+
     console.log(data)
+
+    useEffect(() => {
+		if (data) {
+			setTitle(data.movie.title)
+			setOverview(data.movie.overview)
+			setPoster_path(data.movie.poster_path)
+			setPopularity(data.movie.popularity)
+			setTags(data.movie.tags)
+		}
+	}, [data])
 
     function submitMovie (e) {
         e.preventDefault()
@@ -39,6 +57,15 @@ function EditMovie (props) {
                 data: payload
             }
           })
+          .then(() => {
+            history.push(`/movies`)
+          })
+          .catch(error => {
+              console.log(error)
+          })
+          .finally(() => console.log('movie updated'))
+
+
         console.log(payload)
     }
 
@@ -68,6 +95,9 @@ function EditMovie (props) {
         setTags(splitArr)
     }
 
+    if(loading) {
+        return <div>Loading .....</div>
+    }
 
     return (
         <div className='d-flex justify-content-center align-items-center ' style={{marginTop: '100px'}}>
@@ -79,27 +109,27 @@ function EditMovie (props) {
 
                         <div className="form-group">
                             <label for="titleInput">Title</label>
-                            <input onChange={(e) => onChangeTitle(e)} type="text" className="form-control" id="titleInput" placeholder="Harry Potter"/>
+                            <input value={title} onChange={(e) => onChangeTitle(e)} type="text" className="form-control" id="titleInput" placeholder="Harry Potter"/>
                         </div>
 
                         <div className="form-group">
                             <label for="overviewInput">Overview</label>
-                            <textarea onChange={(e) => onChangeOverview(e)} type="text" className="form-control" id="overviewInput" placeholder="Magic boy with thunder in his forehead"/>
+                            <textarea value={overview} onChange={(e) => onChangeOverview(e)} type="text" className="form-control" id="overviewInput" placeholder="Magic boy with thunder in his forehead"/>
                         </div>
 
                         <div className="form-group">
                             <label for="posterInput">Poster Image</label>
-                            <input onChange={(e) => onChangePoster_path(e)} type="text" className="form-control" id="posterInput" placeholder="www.google.com/image.png"/>
+                            <input value={poster_path} onChange={(e) => onChangePoster_path(e)} type="text" className="form-control" id="posterInput" placeholder="www.google.com/image.png"/>
                         </div>
 
                         <div className="form-group">
                             <label for="popularityInput">Popularity</label>
-                            <input onChange={(e) => onChangePopularity(e)} type="number" className="form-control" id="popularityInput" min="0" max='10' step='0.1' placeholder="8.5"/>
+                            <input value={popularity} onChange={(e) => onChangePopularity(e)} type="number" className="form-control" id="popularityInput" min="0" max='10' step='0.1' placeholder="8.5"/>
                         </div>
 
                         <div className="form-group">
                             <label for="tagInput">Tags</label>
-                            <input onChange={(e) => onChangeTags(e)} type="text" className="form-control" id="tagInput" min="0" placeholder="action, drama"/>
+                            <input value={tags} onChange={(e) => onChangeTags(e)} type="text" className="form-control" id="tagInput" min="0" placeholder="action, drama"/>
                         </div>
                     </div>
 

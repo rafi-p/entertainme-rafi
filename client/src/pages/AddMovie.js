@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ADD_MOVIE } from '../config/queries'
+import { ADD_MOVIE, GET_MOVIES, GET_ALL } from '../config/queries'
 import { useHistory } from 'react-router-dom'
 
 import { useQuery, gql, useMutation } from '@apollo/client'
@@ -13,7 +13,11 @@ function AddMovie (props) {
 
     const history = useHistory()
 
-    const [addMovie] = useMutation(ADD_MOVIE)
+    const [addMovie] = useMutation(ADD_MOVIE, {
+          refetchQueries: [
+            { query: GET_ALL }
+          ]
+        })
 
     function submitMovie (e) {
         e.preventDefault()
@@ -31,7 +35,7 @@ function AddMovie (props) {
             }
           })
         console.log(payload)
-        history.push(`/movies`)
+        history.push(`/`)
     }
 
     function onChangeTitle (e) {
