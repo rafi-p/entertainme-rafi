@@ -1,6 +1,6 @@
 const { gql } = require("apollo-server")
 const axios = require("axios")
-const moviesURL = 'http://localhost:3001/movies'
+const moviesURL = 'http://localhost:5001/movies'
 const Redis = require('ioredis')
 const redis = new Redis()
 
@@ -58,6 +58,9 @@ const resolvers = {
             } catch (error) {
                 console.log(error)
             }
+
+
+
         },
         movie: async (parent, args, context, info) => {
             try {

@@ -6,7 +6,7 @@ function ShowcaseCard (props) {
     return (
         <li className="item-a">
             <div className="showcase-box">
-                <img src={image1}/>
+                <img src={image1} alt=""/>
             </div>
         </li>
     )

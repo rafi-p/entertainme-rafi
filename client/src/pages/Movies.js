@@ -1,9 +1,13 @@
 import React from 'react'
 import Card from '../components/card'
-import SlideCard from '../components/slideCard'
+import { GET_MOVIES } from '../config/queries'
+
+import { useQuery, gql } from '@apollo/client'
 
 function Movies (props) {
 
+    const {loading, error, data} = useQuery(GET_MOVIES)
+    console.log(data)
 
     return (
         <>
@@ -11,14 +15,14 @@ function Movies (props) {
                 <h2>Movies</h2>
             </div>
             <section id="movies-list" className='container'>
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+                {data !== undefined &&
+                    data.movies.map(movie => {
+                        return (
+                            <Card key={movie._id} movie={movie}/>
+                        )
+                    })
+                }
+
             </section>
         </>
     )

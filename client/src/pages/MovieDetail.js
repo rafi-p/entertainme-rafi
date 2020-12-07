@@ -7,8 +7,8 @@ function MovieDetail (props) {
 
         <div className='d-flex justify-content-center align-items-center ' style={{marginTop: '100px'}}>
             <div className='card shadow' style={{height: '500px', width: '400px', borderRadius: '30px 0px 0px 30px'}}>
-                <img src={imageM1} style={{height: '100%', width: '100%', objectFit: 'cover', borderRadius: '30px 0px 0px 30px'}}/>
-                <div style={{backdgroundColor: '#000'}}></div>
+                <img src={imageM1} style={{height: '100%', width: '100%', objectFit: 'cover', borderRadius: '30px 0px 0px 30px'}} alt=""/>
+                <div style={{backdgroundColor: '#000'}} ></div>
             </div>
             <div className='card shadow' style={{height: '500px', width: '500px', borderRadius: '0px 30px 30px 0px'}}>
                 <div className='card-body ' style={{padding: '2.5rem'}}>
@@ -32,9 +32,9 @@ function MovieDetail (props) {
                         <a href="#!" class="btn btn-outline-primary">
                             Edit
                         </a>
-                        <a href="#!" class="btn btn-primary">
+                        <a href="#!" className="btn btn-primary">
                             <i className="far fa-bookmark mr-2"></i>
-                            {/* <i class="fas fa-bookmark mr-2"></i> */}
+                            {/* <i className="fas fa-bookmark mr-2"></i> */}
                             Favorite
                         </a>
 

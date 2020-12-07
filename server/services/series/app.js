@@ -1,7 +1,7 @@
 const express = require('express')
 const router = require('./routes/index')
 const app = express()
-const port = 3002
+const port = 5002
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

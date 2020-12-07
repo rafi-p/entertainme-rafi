@@ -1,33 +1,34 @@
 import React, { useState } from 'react'
 import ShowcaseCard from '../components/showcaseCard'
 import SlideCard from '../components/slideCard'
+import { GET_MOVIES } from '../config/queries'
 
 import { useQuery, gql } from '@apollo/client'
 
 
-const GET_MOVIES = gql`
-  query getMovies {
-    series {
-        _id
-        title
-        overview
-        poster_path
-        popularity
-        tags
-    }
-  }
-`
-const GET_MOVIE=gql`
+// const GET_MOVIES = gql`
+//   query getMovies {
+//     movies {
+//         _id
+//         title
+//         overview
+//         poster_path
+//         popularity
+//         tags
+//     }
+//   }
+// `
+// const GET_MOVIE=gql`
 
-  query getMovie($id : ID) {
-    movie (_id: $id) {
-      id
-      name
-      age
-      country
-    }
-  }
-`
+//   query getMovie($id : ID) {
+//     movie (_id: $id) {
+//       id
+//       name
+//       age
+//       country
+//     }
+//   }
+// `
 
 
 function Home () {
@@ -45,7 +46,7 @@ function Home () {
 
     return (
         <>
-          {/* <div>{data.movies}</div> */}
+          {/* <div>{JSON.stringify(data)}</div> */}
 
           <section id="main">
             {/* <!--showcase----------------------->

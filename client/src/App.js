@@ -12,7 +12,7 @@ function App() {
     <ApolloProvider client={client}>
       <nav>
         <Link className="logo" to="/">
-            <img src={logo}/>
+            <img src={logo} alt=""/>
         </Link>
         <ul className="menu">
             <li><Link to="/movies">Movies</Link></li>
@@ -40,7 +40,7 @@ function App() {
         <Route path='/addMovie'>
           <AddMovie/>
         </Route>
-        <Route path='/editMovie'>
+        <Route path='/editMovie/:id'>
           <EditMovie/>
         </Route>
       </Switch>
