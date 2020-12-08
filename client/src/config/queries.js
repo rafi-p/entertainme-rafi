@@ -9,6 +9,7 @@ export const GET_ALL = gql`
       poster_path
       popularity
       tags
+      favorite
   }
   series {
     _id
@@ -17,6 +18,7 @@ export const GET_ALL = gql`
     poster_path
     popularity
     tags
+    favorite
   }
 }
 `
@@ -30,6 +32,7 @@ export const GET_MOVIES = gql`
         poster_path
         popularity
         tags
+        favorite
     }
   }
 `
@@ -43,6 +46,7 @@ export const GET_MOVIE = gql`
         poster_path
         popularity
         tags
+        favorite
     }
   }
 `
@@ -79,6 +83,7 @@ export const ADD_MOVIE = gql`
             poster_path
             popularity
             tags
+            favorite
     }
   }
 `
@@ -97,6 +102,25 @@ export const UPDATE_MOVIE = gql`
             poster_path
             popularity
             tags
+            favorite
+    }
+  }
+`
+
+export const PATCH_MOVIE = gql`
+
+  mutation patchMovie($_id : ID, $data : newFavorite) {
+    patchMovie (
+        _id: $_id,
+        data: $data
+        ) {
+            _id
+            title
+            overview
+            poster_path
+            popularity
+            tags
+            favorite
     }
   }
 `
@@ -111,6 +135,7 @@ export const REMOVE_MOVIE = gql`
         poster_path
         popularity
         tags
+        favorite
     }
   }
 `
@@ -127,3 +152,17 @@ export const GET_SERIES = gql`
     }
   }
 `
+
+export const GET_FAVORITES = gql`
+		query GetFavorites {
+			favorites @client {
+				_id
+				title
+				overview
+				poster_path
+				popularity
+        tags
+        favorite
+			}
+    }
+  `

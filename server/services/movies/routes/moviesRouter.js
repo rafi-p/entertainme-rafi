@@ -10,6 +10,8 @@ router.get('/:id', Controller.movieId)
 
 router.put('/:id', Controller.moviePut)
 
+router.patch('/:id', Controller.moviePatch)
+
 router.delete('/:id', Controller.delete)
 
 

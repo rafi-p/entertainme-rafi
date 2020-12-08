@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import ShowcaseCard from '../components/showcaseCard'
 import SlideCard from '../components/slideCard'
-import { GET_MOVIES, GET_SERIES, GET_ALL } from '../config/queries'
+import { GET_MOVIES, GET_SERIES } from '../config/queries'
+import loading_animated from '../assets/loading_scr.gif'
 
-import { useQuery, gql } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 
 
 function Home () {
@@ -11,21 +12,21 @@ function Home () {
     const [reversedSeries, setReversedSeries] = useState([])
     const [newArrMovie, setNewArrMovie] = useState([])
 
-    const {loading, error, data} = useQuery(GET_ALL)
-
+    const {loading: loadingMovies, error: errorMovies, data: dataMovies} = useQuery(GET_MOVIES)
     const sliceMovie = reversedMovie.reverse().slice(0,10)
-    console.log(sliceMovie)
+    // console.log(sliceMovie)
 
+    const {loading: loadingSeries, error: errorSeries, data: dataSeries} = useQuery(GET_SERIES)
     const sliceSeries = reversedSeries.reverse().slice(0,10)
-    console.log(sliceSeries)
+    // console.log(sliceSeries)
 
     useEffect(() => {
-      if(data) {
-        setReversedMovie([...data.movies])
-        setReversedSeries([...data.series])
-        setNewArrMovie([...data.movies])
+      if(dataMovies && dataSeries) {
+        setReversedMovie([...dataMovies.movies])
+        setReversedSeries([...dataSeries.series])
+        setNewArrMovie([...dataMovies.movies])
       }
-    },[data])
+    },[dataMovies, dataSeries])
 
     function selectionSort(arr) {
       for (let i = 0; i < arr.length; i++) {
@@ -47,19 +48,19 @@ function Home () {
 
   const sortingByPopularity = selectionSort(newArrMovie).reverse()
   const filterMoviePopular = sortingByPopularity.filter((el, index) => index < 5)
-  console.log(filterMoviePopular)
+  // console.log(filterMoviePopular)
 
-    if(loading) {
-        return <div>Loading .....</div>
+
+  if(loadingMovies || loadingSeries) {
+    return (
+        <div className='animate__animated animate__fadeIn'>
+            <img src={loading_animated} style={{position: 'fixed', zIndex: 999, top:0, left:0, right:0, bottom:0, margin:'auto'}} height="200"></img>
+        </div>
+      )
     }
 
-    // if(error) {
-    //     return <div>{error.message}</div>
-    // }
-
     return (
-        <>
-          {/* <div>{JSON.stringify(data)}</div> */}
+        <div className='animate__animated animate__fadeIn'>
 
           <section id="main">
             {/* <!--showcase----------------------->
@@ -101,17 +102,17 @@ function Home () {
             <h2 className="latest-heading">Latest Series</h2>
             {/* <!--slider-------------------> */}
             <ul id="autoWidth2" className="cs-hidden d-flex scrollbar scrollbar-black bordered-black square thin">
-            { data.series !== undefined &&
+            {
               sliceSeries.map(serie => {
                 return (
-                  <SlideCard key={serie._id} movie={serie}/>
+                  <SlideCard key={serie._id} movie={serie} serie={true}/>
                 )
               })
             }
             </ul>
           </section>
 
-        </>
+        </div>
     )
 }
 

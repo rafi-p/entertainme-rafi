@@ -13,6 +13,7 @@ const typeDefs = gql`
         poster_path: String
         popularity: Float
         tags: [String]
+        favorite: Boolean
     }
 
     extend type Query {
@@ -26,11 +27,17 @@ const typeDefs = gql`
         poster_path: String!
         popularity: Float!
         tags: [String!]
+        favorite: Boolean
+    }
+
+    input newFavorite {
+        favorite: Boolean
     }
 
     extend type Mutation {
         addMovie(data: newMovie): Movie
         updateMovie(_id:ID, data: newMovie): Movie
+        patchMovie(_id:ID, data: newFavorite): Movie
         removeMovie(_id:ID): Movie
     }
 `;
@@ -120,6 +127,27 @@ const resolvers = {
                         poster_path,
                         popularity,
                         tags
+                    }
+                })
+                redis.del('movies')
+                // console.log(data, 'ini data dari updateMovie')
+                return data.value
+            } catch (error) {
+
+                console.log(error)
+            }
+        },
+        patchMovie: async (parent, args, context, info) => {
+            try {
+                const {_id} = args
+                // console.log(_id, 'ini di movieSchema')
+                // console.log(args.data)
+                const {favorite} = args.data
+                const {data} = await axios ({
+                    url: moviesURL + `/${_id}`,
+                    method: 'PATCH',
+                    data: {
+                        favorite
                     }
                 })
                 redis.del('movies')

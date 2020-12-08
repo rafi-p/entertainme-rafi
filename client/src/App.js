@@ -1,5 +1,5 @@
 import React from 'react'
-import { Home, Movies, Series, MovieDetail, AddMovie, EditMovie } from './pages/index'
+import { Home, Movies, Series, MovieDetail, AddMovie, EditMovie, Favorite } from './pages/index'
 import { Switch, Route, Link} from 'react-router-dom'
 import './App.css';
 import logo from './assets/logo2.png'
@@ -20,7 +20,7 @@ function App() {
         </ul>
         <ul className="menu">
             <li><Link to='/addMovie'>Add</Link></li>
-            <li><a href='#'>Favorite</a></li>
+            <li><Link to='/favorite'>Favorite</Link></li>
         </ul>
       </nav>
 
@@ -42,6 +42,9 @@ function App() {
         </Route>
         <Route path='/editMovie/:id'>
           <EditMovie/>
+        </Route>
+        <Route path='/favorite'>
+          <Favorite/>
         </Route>
       </Switch>
     </ApolloProvider>
