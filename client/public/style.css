@@ -84,7 +84,7 @@ nav .menu li a:hover{
     transition: all .5s;
 }
 .showcase-box:hover{
-    transform: scale(1.02);
+    transform: scale(1.001);
     box-shadow: 10px 30px 60px rgba(0,0,0,0.3);
 }
 .showcase-box img{

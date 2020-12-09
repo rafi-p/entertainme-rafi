@@ -6,7 +6,8 @@ export const favoriteVars = makeVar(
 
 
  const client = new ApolloClient({
-    uri: 'http://localhost:4000',
+    // uri: 'http://localhost:4000',
+    uri: 'http://54.179.167.101:4000',
     cache: new InMemoryCache({
         typePolicies: {
             Query: {

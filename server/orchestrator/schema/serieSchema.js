@@ -1,6 +1,6 @@
 const { gql } = require("apollo-server")
 const axios = require("axios")
-const tvURL = 'http://localhost:5002/tv'
+const tvURL = 'http://54.179.167.101:5002/tv'
 const Redis = require('ioredis')
 const redis = new Redis()
 
